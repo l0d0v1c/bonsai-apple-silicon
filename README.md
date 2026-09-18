@@ -94,6 +94,39 @@ Ils viennent du fork [`PrismML-Eng/llama.cpp`](https://github.com/PrismML-Eng/ll
 (commit `1a07bfa`). **Le llama.cpp officiel ne peut pas charger ce modèle**, ni Ollama, ni
 LM Studio — voir §8 pour les trois raisons techniques.
 
+### Les télécharger
+
+Archive prête à l'emploi, ~9 Mo :
+
+**<https://github.com/l0d0v1c/bonsai-apple-silicon/archive/refs/tags/v1.zip>**
+
+```sh
+curl -L -o bonsai-bin.zip \
+  https://github.com/l0d0v1c/bonsai-apple-silicon/archive/refs/tags/v1.zip
+
+unzip bonsai-bin.zip
+mv bonsai-apple-silicon-1 bin
+```
+
+L'option `-L` est nécessaire : GitHub redirige vers `codeload.github.com`.
+
+**L'archive se décompresse en `bonsai-apple-silicon-1/`, et les exécutables sont
+directement à sa racine** — pas dans un sous-dossier `bin/`. Le `mv` ci-dessus la renomme
+en `bin/`, ce qui aligne votre installation sur tous les chemins `./bin/...` employés dans
+la suite de ce document. Si vous préférez garder le nom d'origine, remplacez `./bin/` par
+`./bonsai-apple-silicon-1/` partout.
+
+Enchaînez ensuite sur §2 (déblocage Gatekeeper) : l'archive vient du web, macOS la met en
+quarantaine.
+
+```sh
+xattr -dr com.apple.quarantine bin
+./bin/llama-cli --version    # doit repondre
+```
+
+L'archive conserve les liens symboliques des bibliothèques, les permissions d'exécution et
+la signature des binaires : rien d'autre n'est à réparer.
+
 ---
 
 ## 1. Prérequis
